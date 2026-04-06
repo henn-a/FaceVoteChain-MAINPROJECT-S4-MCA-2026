@@ -1,0 +1,136 @@
+{% extends 'admin/adminindex.html' %}
+{% block body %}
+<body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0"><i class="fas fa-reply"></i> Send Reply</h4>
+        </div>
+        <div class="card-body p-4">
+          <form id="form1" name="form1" method="post" action="/sendingreply">
+
+            <!-- Reply Field -->
+            <div class="mb-4">
+              <label for="reply" class="form-label fw-bold">
+                <i class="fas fa-comment-dots text-primary"></i> Your Reply <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" id="reply"
+                        name="textfield" rows="6"
+                        placeholder="Type your reply here..."
+                        required></textarea>
+              <small class="form-text text-muted">
+                <i class="fas fa-info-circle"></i> Enter your message to send as a reply
+              </small>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+              <button type="submit" name="Submit" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-paper-plane"></i> Send Reply
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2rem 0;
+    min-height: 100vh;
+  }
+
+  .card {
+    border-radius: 12px;
+    border: none;
+    animation: fadeIn 0.4s ease-in;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card-header {
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1.25rem;
+  }
+
+  .card-header h4 {
+    font-weight: 600;
+  }
+
+  .form-label {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+  }
+
+  textarea.form-control {
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 0.85rem;
+    transition: all 0.3s ease;
+    resize: vertical;
+    font-size: 0.95rem;
+  }
+
+  textarea.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    outline: none;
+  }
+
+  textarea.form-control::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+  }
+
+  .btn-primary {
+    padding: 0.75rem 3rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .text-danger {
+    font-weight: bold;
+  }
+
+  i.fas {
+    margin-right: 0.4rem;
+  }
+
+  .form-text {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+</style>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+</body>
+{% endblock %}

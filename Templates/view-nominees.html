@@ -1,0 +1,381 @@
+{% extends 'admin/adminindex.html' %}
+{% block body %}
+
+<body>
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0"><i class="fas fa-user-check"></i> View Nominations</h4>
+        </div>
+        <div class="card-body">
+
+          <!-- Search Form -->
+          <form id="form1" name="form1" method="post" action="searchviewnom" class="mb-4">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-8">
+                <label for="studentName" class="form-label fw-bold">
+                  <i class="fas fa-search text-primary"></i> Search Nominations by Name
+                </label>
+                <input type="text" class="form-control form-control-lg" id="studentName"
+                       name="textfield" placeholder="Enter student name..." required />
+              </div>
+              <div class="col-md-4">
+                <button type="submit" name="Submit" class="btn btn-primary btn-lg w-100">
+                  <i class="fas fa-search"></i> Search
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Results Table -->
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th width="20%"><i class="fas fa-user"></i> Name</th>
+                  <th width="15%" class="text-center"><i class="fas fa-image"></i> Image</th>
+                  <th width="20%"><i class="fas fa-briefcase"></i> Post</th>
+                  <th width="20%"><i class="fas fa-calendar-alt"></i> Election Date</th>
+                  <th width="25%" class="text-center"><i class="fas fa-info-circle"></i> Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if val %}
+                  {% for i in val %}
+                  <tr>
+                    <td>
+                      <div class="student-name">
+                        <i class="fas fa-user-graduate text-primary"></i>
+                        <strong>{{ i.STUDENT.Fname }} {{ i.STUDENT.Lname }}</strong>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <img src="{{ i.STUDENT.image.url }}" class="nomination-img rounded shadow-sm"
+                           alt="{{ i.STUDENT.Fname }} {{ i.STUDENT.Lname }}" />
+                    </td>
+                    <td>
+                      <div class="post-badge">
+                        <i class="fas fa-award text-warning"></i>
+                        <strong>{{ i.ELECTION_DATE.post }}</strong>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="date-info">
+                        <i class="fas fa-calendar-check text-info"></i>
+                        {{ i.ELECTION_DATE.election_date }}
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      {% if i.status == 'Approved' or i.status == 'approved' %}
+                        <span class="badge bg-success status-badge">
+                          <i class="fas fa-check-circle"></i> {{ i.status }}
+                        </span>
+                      {% elif i.status == 'Pending' or i.status == 'pending' %}
+                        <span class="badge bg-warning status-badge">
+                          <i class="fas fa-clock"></i> {{ i.status }}
+                        </span>
+                      {% elif i.status == 'Rejected' or i.status == 'rejected' %}
+                        <span class="badge bg-danger status-badge">
+                          <i class="fas fa-times-circle"></i> {{ i.status }}
+                        </span>
+                      {% else %}
+                        <span class="badge bg-secondary status-badge">
+                          <i class="fas fa-question-circle"></i> {{ i.status }}
+                        </span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="5" class="text-center text-muted py-5">
+                      <i class="fas fa-search fa-3x mb-3 d-block"></i>
+                      <h5>No Nominations Found</h5>
+                      <p class="mb-0">Try searching with a different name</p>
+                    </td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Summary Stats -->
+          {% if val %}
+          <div class="nomination-stats mt-4">
+            <div class="row text-center">
+              <div class="col-md-3">
+                <div class="stat-card bg-light">
+                  <i class="fas fa-list-ul fa-2x text-primary mb-2"></i>
+                  <h5>{{ val|length }}</h5>
+                  <p class="text-muted mb-0">Total Nominations</p>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-card bg-success-light">
+                  <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                  <h5 id="approvedCount">-</h5>
+                  <p class="text-muted mb-0">Approved</p>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-card bg-warning-light">
+                  <i class="fas fa-clock fa-2x text-warning mb-2"></i>
+                  <h5 id="pendingCount">-</h5>
+                  <p class="text-muted mb-0">Pending</p>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-card bg-danger-light">
+                  <i class="fas fa-times-circle fa-2x text-danger mb-2"></i>
+                  <h5 id="rejectedCount">-</h5>
+                  <p class="text-muted mb-0">Rejected</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 1rem 0;
+  }
+
+  .card {
+    border-radius: 12px;
+    border: none;
+  }
+
+  .card-header {
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1.25rem;
+  }
+
+  .card-header h4 {
+    font-weight: 600;
+  }
+
+  .form-control {
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+  }
+
+  .form-label {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-primary {
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+  }
+
+  .table {
+    margin-bottom: 0;
+  }
+
+  .table thead th {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-top: none;
+    padding: 1rem;
+    vertical-align: middle;
+  }
+
+  .table tbody td {
+    padding: 1.25rem;
+    vertical-align: middle;
+  }
+
+  .table tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease;
+  }
+
+  .student-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .student-name i {
+    font-size: 1.2rem;
+  }
+
+  .nomination-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 3px solid #e9ecef;
+    transition: all 0.3s ease;
+  }
+
+  .nomination-img:hover {
+    transform: scale(1.15);
+    border-color: #0d6efd;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .post-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    border-left: 4px solid #ffc107;
+  }
+
+  .date-info {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #495057;
+  }
+
+  .status-badge {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 20px;
+  }
+
+  .status-badge i {
+    margin-right: 0.3rem;
+  }
+
+  .table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .nomination-stats {
+    padding-top: 1.5rem;
+    border-top: 2px solid #e9ecef;
+  }
+
+  .stat-card {
+    padding: 1.5rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .stat-card h5 {
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0.5rem 0;
+    font-size: 1.8rem;
+  }
+
+  .bg-light {
+    background-color: #f8f9fa !important;
+  }
+
+  .bg-success-light {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  }
+
+  .bg-warning-light {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+  }
+
+  .bg-danger-light {
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c2c7 100%);
+  }
+
+  i.fas:not(.fa-2x):not(.fa-3x) {
+    margin-right: 0.5rem;
+  }
+
+  .shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .table {
+      font-size: 0.85rem;
+    }
+
+    .nomination-img {
+      width: 60px;
+      height: 60px;
+    }
+
+    .btn-primary {
+      padding: 0.65rem 1.5rem;
+    }
+
+    .stat-card {
+      margin-bottom: 1rem;
+    }
+
+    .status-badge {
+      font-size: 0.8rem;
+      padding: 0.5rem 1rem;
+    }
+
+    .post-badge {
+      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
+    }
+  }
+</style>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<script>
+  // Count status types and update stats
+  document.addEventListener('DOMContentLoaded', function() {
+    const statusBadges = document.querySelectorAll('.status-badge');
+    let approved = 0, pending = 0, rejected = 0;
+
+    statusBadges.forEach(badge => {
+      const status = badge.textContent.trim().toLowerCase();
+      if (status.includes('approved')) approved++;
+      else if (status.includes('pending')) pending++;
+      else if (status.includes('rejected')) rejected++;
+    });
+
+    document.getElementById('approvedCount').textContent = approved;
+    document.getElementById('pendingCount').textContent = pending;
+    document.getElementById('rejectedCount').textContent = rejected;
+  });
+</script>
+
+</body>
+{% endblock %}

@@ -1,0 +1,201 @@
+{% extends 'admin/adminindex.html' %}
+{% block body %}
+
+<body>
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0"><i class="fas fa-user-graduate"></i> Student Search</h4>
+        </div>
+        <div class="card-body">
+
+          <!-- Search Form -->
+          <form id="form1" name="form1" method="post" action="searchstudent" class="mb-4">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-8">
+                <label for="studentName" class="form-label fw-bold">
+                  <i class="fas fa-search text-primary"></i> Search by Name
+                </label>
+                <input type="text" class="form-control form-control-lg" id="studentName"
+                       name="textfield" placeholder="Enter student name..." required />
+              </div>
+              <div class="col-md-4">
+                <button type="submit" name="Submit" class="btn btn-primary btn-lg w-100">
+                  <i class="fas fa-search"></i> Search
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Results Table -->
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th width="20%"><i class="fas fa-user"></i> Name</th>
+                  <th width="15%"><i class="fas fa-calendar"></i> DOB</th>
+                  <th width="15%" class="text-center"><i class="fas fa-image"></i> Image</th>
+                  <th width="20%"><i class="fas fa-phone"></i> Phone No</th>
+                  <th width="30%"><i class="fas fa-envelope"></i> Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if val %}
+                  {% for i in val %}
+                  <tr>
+                    <td><strong>{{ i.Fname }} {{ i.Lname }}</strong></td>
+                    <td>{{ i.DOB }}</td>
+                    <td class="text-center">
+                      <img src="media/{{ i.image }}" class="student-img rounded shadow-sm"
+                           alt="{{ i.Fname }} {{ i.Lname }}" />
+                    </td>
+                    <td>
+                      <i class="fas fa-mobile-alt text-muted"></i> {{ i.phone_no }}
+                    </td>
+                    <td>
+                      <i class="fas fa-envelope text-muted"></i> {{ i.Email }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="5" class="text-center text-muted py-5">
+                      <i class="fas fa-search fa-3x mb-3 d-block"></i>
+                      <h5>No students found</h5>
+                      <p class="mb-0">Try searching with a different name</p>
+                    </td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 1rem 0;
+  }
+
+  .card {
+    border-radius: 12px;
+    border: none;
+  }
+
+  .card-header {
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1.25rem;
+  }
+
+  .card-header h4 {
+    font-weight: 600;
+  }
+
+  .form-control {
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+  }
+
+  .form-label {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-primary {
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+  }
+
+  .table {
+    margin-bottom: 0;
+  }
+
+  .table thead th {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-top: none;
+    padding: 1rem;
+    vertical-align: middle;
+  }
+
+  .table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+  }
+
+  .table tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease;
+  }
+
+  .student-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 3px solid #e9ecef;
+    transition: all 0.3s ease;
+  }
+
+  .student-img:hover {
+    transform: scale(1.1);
+    border-color: #0d6efd;
+    cursor: pointer;
+  }
+
+  .table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  i.fas:not(.fa-3x) {
+    margin-right: 0.5rem;
+  }
+
+  .shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .table {
+      font-size: 0.85rem;
+    }
+
+    .student-img {
+      width: 60px;
+      height: 60px;
+    }
+
+    .btn-primary {
+      padding: 0.65rem 1.5rem;
+    }
+  }
+</style>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+</body>
+{% endblock %}

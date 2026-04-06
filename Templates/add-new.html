@@ -1,0 +1,505 @@
+{% extends 'admin/adminindex.html' %}
+{% block body %}
+
+<style>
+  .coordinator-form-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+
+  .form-header {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    padding: 35px;
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(79, 172, 254, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+
+  .form-header-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .form-header h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .form-header p {
+    margin: 12px 0 0 0;
+    opacity: 0.95;
+    font-size: 15px;
+  }
+
+  .form-card {
+    background: white;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 45px;
+  }
+
+  .form-section {
+    margin-bottom: 35px;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #4facfe;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #00f2fe;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+  .form-label {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
+  .label-icon {
+    display: inline-block;
+    width: 24px;
+    text-align: center;
+    margin-right: 6px;
+  }
+
+  .required {
+    color: #dc3545;
+    margin-left: 3px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 13px 18px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    background: #fafafa;
+    box-sizing: border-box;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #4facfe;
+    box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.1);
+    background: white;
+  }
+
+  .form-input:hover {
+    border-color: #4facfe;
+    background: white;
+  }
+
+  .form-input::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+  }
+
+  /* File Upload Styling */
+  .file-upload-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .file-upload-label {
+    display: block;
+    padding: 40px 20px;
+    border: 3px dashed #4facfe;
+    border-radius: 10px;
+    background: #f0faff;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .file-upload-label:hover {
+    background: #e0f4ff;
+    border-color: #00f2fe;
+    transform: translateY(-2px);
+  }
+
+  .file-upload-input {
+    display: none;
+  }
+
+  .upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .upload-icon {
+    font-size: 45px;
+  }
+
+  .upload-text {
+    font-size: 15px;
+    color: #495057;
+  }
+
+  .upload-text strong {
+    color: #4facfe;
+    font-weight: 600;
+  }
+
+  .file-info {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 3px;
+  }
+
+  .file-name-display {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: #e0f4ff;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #4facfe;
+    font-weight: 600;
+    display: none;
+  }
+
+  /* Password Field */
+  .password-wrapper {
+    position: relative;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 20px;
+    color: #6c757d;
+    transition: color 0.3s ease;
+    user-select: none;
+  }
+
+  .toggle-password:hover {
+    color: #4facfe;
+  }
+
+  /* Helper Text */
+  .helper-text {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 6px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Submit Button */
+  .submit-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid #f0f0f0;
+    text-align: center;
+  }
+
+  .btn-submit {
+    padding: 16px 60px;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 20px rgba(79, 172, 254, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(79, 172, 254, 0.6);
+  }
+
+  .btn-submit:active {
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .coordinator-form-container {
+      margin: 20px auto;
+      padding: 15px;
+    }
+
+    .form-card {
+      padding: 30px 20px;
+    }
+
+    .form-header {
+      padding: 25px 20px;
+    }
+
+    .form-header h2 {
+      font-size: 26px;
+    }
+
+    .btn-submit {
+      width: 100%;
+    }
+  }
+
+  /* Validation Styles */
+  .form-input:valid {
+    border-color: #28a745;
+  }
+
+  .form-input:invalid:not(:placeholder-shown) {
+    border-color: #dc3545;
+  }
+</style>
+
+<div class="coordinator-form-container">
+  <div class="form-header">
+    <div class="form-header-content">
+      <h2>
+        <span>🗳️</span>
+        <span>Election Coordinator Registration</span>
+      </h2>
+      <p>Register a new election coordinator by filling in the details below</p>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <form id="form1" name="form1" method="post" action="addnewelectioncoo" enctype="multipart/form-data">
+
+      <!-- Personal Information Section -->
+      <div class="form-section">
+        <div class="section-title">
+          <span>👤</span> Personal Information
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">📝</span>
+            Full Name<span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            name="textfield"
+            class="form-input"
+            placeholder="Enter full name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">📅</span>
+            Date of Birth<span class="required">*</span>
+          </label>
+          <input
+            type="date"
+            name="textfield2"
+            class="form-input"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">📷</span>
+            Profile Image
+          </label>
+          <div class="file-upload-wrapper">
+            <label for="file-input" class="file-upload-label">
+              <div class="upload-content">
+                <span class="upload-icon">☁️</span>
+                <div class="upload-text">
+                  <strong>Click to upload</strong> or drag and drop
+                </div>
+                <div class="file-info">PNG, JPG or JPEG (MAX. 5MB)</div>
+              </div>
+            </label>
+            <input
+              type="file"
+              id="file-input"
+              name="file"
+              class="file-upload-input"
+              accept="image/*"
+              onchange="displayFileName(this)"
+            />
+            <div id="file-name-display" class="file-name-display"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Information Section -->
+      <div class="form-section">
+        <div class="section-title">
+          <span>📞</span> Contact Information
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">📱</span>
+            Phone Number<span class="required">*</span>
+          </label>
+          <input
+            type="tel"
+            name="textfield4"
+            class="form-input"
+            placeholder="Enter phone number"
+            pattern="[0-9]{10}"
+            required
+          />
+          <div class="helper-text">
+            <span>💡</span>
+            <span>Format: 10 digits</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">📧</span>
+            Email Address<span class="required">*</span>
+          </label>
+          <input
+            type="email"
+            name="textfield5"
+            class="form-input"
+            placeholder="coordinator@example.com"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Account Credentials Section -->
+      <div class="form-section">
+        <div class="section-title">
+          <span>🔐</span> Account Credentials
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">👤</span>
+            Username<span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            name="textfield6"
+            class="form-input"
+            placeholder="Choose a username"
+            minlength="4"
+            required
+          />
+          <div class="helper-text">
+            <span>💡</span>
+            <span>Minimum 4 characters</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">🔒</span>
+            Password<span class="required">*</span>
+          </label>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="password"
+              name="textfield7"
+              class="form-input"
+              placeholder="Create a strong password"
+              minlength="8"
+              required
+            />
+            <span class="toggle-password" onclick="togglePassword()">👁️</span>
+          </div>
+          <div class="helper-text">
+            <span>💡</span>
+            <span>Minimum 8 characters, include letters, numbers and special characters</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="submit-section">
+        <button type="submit" name="Submit" class="btn-submit">
+          ✓ Register Coordinator
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.querySelector('.toggle-password');
+
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleIcon.textContent = '🙈';
+    } else {
+      passwordInput.type = 'password';
+      toggleIcon.textContent = '👁️';
+    }
+  }
+
+  function displayFileName(input) {
+    const fileNameDisplay = document.getElementById('file-name-display');
+    const uploadText = document.querySelector('.upload-text');
+
+    if (input.files && input.files[0]) {
+      const fileName = input.files[0].name;
+      fileNameDisplay.textContent = '📎 Selected: ' + fileName;
+      fileNameDisplay.style.display = 'block';
+      uploadText.innerHTML = '<strong>File selected!</strong> Click to change';
+    } else {
+      fileNameDisplay.style.display = 'none';
+      uploadText.innerHTML = '<strong>Click to upload</strong> or drag and drop';
+    }
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,276 @@
+{% extends 'admin/adminindex.html' %}
+{% block body %}
+<body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <div class="card shadow-lg">
+        <div class="card-header bg-gradient text-white">
+          <h4 class="mb-0"><i class="fas fa-bell"></i> Send Notification</h4>
+        </div>
+        <div class="card-body p-4">
+          <form id="form1" name="form1" method="post" action="/sendnotifications">
+
+            <!-- Notification Field -->
+            <div class="mb-4">
+              <label for="notification" class="form-label fw-bold">
+                <i class="fas fa-bullhorn text-primary"></i> Notification Message <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" id="notification"
+                        name="textfield" rows="5"
+                        placeholder="Type your notification message here..."
+                        required></textarea>
+              <small class="form-text text-muted">
+                <i class="fas fa-info-circle"></i> This message will be sent to all users
+              </small>
+              <div class="char-counter text-end mt-2">
+                <small class="text-muted"><span id="charCount">0</span> / 500 characters</small>
+              </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="notification-preview mb-4">
+              <div class="preview-label">
+                <i class="fas fa-eye"></i> Preview
+              </div>
+              <div class="preview-box" id="previewBox">
+                <i class="fas fa-bell text-muted"></i> <span class="text-muted">Your notification will appear here...</span>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+              <button type="submit" name="Submit" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-paper-plane"></i> Send Notification
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+      <!-- Info Card -->
+      <div class="card mt-4 border-info">
+        <div class="card-body">
+          <h6 class="card-title text-info">
+            <i class="fas fa-lightbulb"></i> Tips
+          </h6>
+          <ul class="mb-0 small">
+            <li>Keep notifications clear and concise</li>
+            <li>Include important information upfront</li>
+            <li>Avoid using all caps or excessive punctuation</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2rem 0;
+    min-height: 100vh;
+  }
+
+  .card {
+    border-radius: 15px;
+    border: none;
+    animation: fadeIn 0.5s ease-in;
+    overflow: hidden;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card-header.bg-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 1.5rem;
+    border-bottom: none;
+  }
+
+  .card-header h4 {
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .card-body {
+    background: #ffffff;
+  }
+
+  .form-label {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+
+  textarea.form-control {
+    border: 2px solid #e1e8ed;
+    border-radius: 10px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    resize: vertical;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  textarea.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+    outline: none;
+    transform: translateY(-2px);
+  }
+
+  textarea.form-control::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+  }
+
+  .notification-preview {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+  }
+
+  .preview-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .preview-box {
+    background: #ffffff;
+    border-left: 4px solid #667eea;
+    padding: 1rem;
+    border-radius: 6px;
+    min-height: 60px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0.85rem 3.5rem;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(102, 126, 234, 0.5);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  }
+
+  .btn-primary:active {
+    transform: translateY(-1px);
+  }
+
+  .text-danger {
+    font-weight: bold;
+  }
+
+  i.fas {
+    margin-right: 0.5rem;
+  }
+
+  .form-text {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+
+  .char-counter {
+    font-size: 0.8rem;
+    color: #6c757d;
+    font-weight: 500;
+  }
+
+  .shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.175) !important;
+  }
+
+  .border-info {
+    border-color: #0dcaf0 !important;
+    border-width: 2px !important;
+  }
+
+  .card-title {
+    font-weight: 600;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .btn-primary {
+      padding: 0.75rem 2.5rem;
+      font-size: 1rem;
+    }
+
+    .card-body {
+      padding: 1.5rem !important;
+    }
+  }
+</style>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<script>
+  // Character counter and preview
+  const textarea = document.getElementById('notification');
+  const charCount = document.getElementById('charCount');
+  const previewBox = document.getElementById('previewBox');
+  const maxChars = 500;
+
+  textarea.addEventListener('input', function() {
+    const currentLength = this.value.length;
+    charCount.textContent = currentLength;
+
+    // Update character count color
+    if (currentLength > maxChars) {
+      charCount.parentElement.classList.add('text-danger');
+      charCount.parentElement.classList.remove('text-muted');
+    } else {
+      charCount.parentElement.classList.add('text-muted');
+      charCount.parentElement.classList.remove('text-danger');
+    }
+
+    // Update preview
+    if (this.value.trim() === '') {
+      previewBox.innerHTML = '<i class="fas fa-bell text-muted"></i> <span class="text-muted">Your notification will appear here...</span>';
+    } else {
+      previewBox.innerHTML = '<i class="fas fa-bell text-primary"></i> ' + this.value;
+    }
+  });
+
+  // Form validation and loading state
+  const form = document.getElementById('form1');
+  form.addEventListener('submit', function(e) {
+    if (textarea.value.length > maxChars) {
+      e.preventDefault();
+      alert('Notification message exceeds maximum length of 500 characters.');
+      return false;
+    }
+
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    submitBtn.disabled = true;
+  });
+</script>
+
+</body>
+{% endblock %}

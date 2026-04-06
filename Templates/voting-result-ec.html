@@ -1,0 +1,336 @@
+{% extends 'staff/electionindex.html' %}
+{% block body %}
+<body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-lg">
+        <div class="card-header bg-gradient text-white">
+          <h4 class="mb-0"><i class="fas fa-poll-h"></i> Election Results Overview</h4>
+        </div>
+        <div class="card-body p-4">
+
+          <!-- Results Table -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th width="5%" class="text-center">#</th>
+                  <th width="30%"><i class="fas fa-briefcase"></i> Post</th>
+                  <th width="45%"><i class="fas fa-info-circle"></i> Details</th>
+                  <th width="20%" class="text-center"><i class="fas fa-chart-bar"></i> Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if val %}
+                  {% for i in val %}
+                  <tr class="result-row">
+                    <td class="text-center">
+                      <div class="rank-number">{{ loop.index }}</div>
+                    </td>
+                    <td>
+                      <div class="post-info">
+                        <i class="fas fa-award text-warning me-2"></i>
+                        <strong>{{ i.post }}</strong>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="details-text">
+                        <i class="fas fa-align-left text-muted me-2"></i>
+                        {{ i.details }}
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <a href="electioncoodviewresult/{{ i.id }}" class="btn btn-primary btn-view">
+                        <i class="fas fa-eye"></i> View Results
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="4" class="text-center text-muted py-5">
+                      <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+                      <h5>No Election Results Available</h5>
+                      <p class="mb-0">Election results will appear here once voting is completed</p>
+                    </td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Statistics Card -->
+          {% if val %}
+          <div class="stats-card mt-4">
+            <div class="row text-center">
+              <div class="col-md-4">
+                <div class="stat-item">
+                  <i class="fas fa-list-ul fa-2x text-primary mb-2"></i>
+                  <h4>{{ val|length }}</h4>
+                  <p class="text-muted mb-0">Total Positions</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="stat-item">
+                  <i class="fas fa-vote-yea fa-2x text-success mb-2"></i>
+                  <h4>{{ val|length }}</h4>
+                  <p class="text-muted mb-0">Elections Held</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="stat-item">
+                  <i class="fas fa-check-circle fa-2x text-info mb-2"></i>
+                  <h4>100%</h4>
+                  <p class="text-muted mb-0">Completed</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2rem 0;
+    min-height: 100vh;
+  }
+
+  .card {
+    border-radius: 15px;
+    border: none;
+    animation: fadeIn 0.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card-header.bg-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 1.5rem;
+    border-bottom: none;
+  }
+
+  .card-header h4 {
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .table {
+    margin-bottom: 0;
+  }
+
+  .table thead th {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-top: none;
+    padding: 1rem;
+    vertical-align: middle;
+  }
+
+  .table tbody td {
+    padding: 1.25rem;
+    vertical-align: middle;
+  }
+
+  .result-row {
+    transition: all 0.3s ease;
+    animation: slideIn 0.5s ease;
+    animation-fill-mode: both;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Stagger animation */
+  .result-row:nth-child(1) { animation-delay: 0.1s; }
+  .result-row:nth-child(2) { animation-delay: 0.2s; }
+  .result-row:nth-child(3) { animation-delay: 0.3s; }
+  .result-row:nth-child(4) { animation-delay: 0.4s; }
+  .result-row:nth-child(5) { animation-delay: 0.5s; }
+
+  .result-row:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+  }
+
+  .rank-number {
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  }
+
+  .post-info {
+    display: flex;
+    align-items: center;
+    font-size: 1.05rem;
+  }
+
+  .details-text {
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.6;
+    color: #495057;
+  }
+
+  .btn-view {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .btn-view:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.5);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  }
+
+  .table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .stats-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    padding: 2rem;
+    border-top: 3px solid #667eea;
+  }
+
+  .stat-item {
+    padding: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .stat-item:hover {
+    transform: translateY(-5px);
+  }
+
+  .stat-item h4 {
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0.5rem 0;
+    font-size: 2rem;
+  }
+
+  .stat-item p {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.175) !important;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .table {
+      font-size: 0.85rem;
+    }
+
+    .btn-view {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .rank-number {
+      width: 30px;
+      height: 30px;
+      font-size: 0.9rem;
+    }
+
+    .post-info, .details-text {
+      font-size: 0.9rem;
+    }
+
+    .stat-item {
+      margin-bottom: 1rem;
+    }
+
+    .stat-item h4 {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* Print Styles */
+  @media print {
+    body {
+      background: white;
+    }
+
+    .card-header.bg-gradient {
+      background: #667eea !important;
+      -webkit-print-color-adjust: exact;
+    }
+
+    .btn-view {
+      display: none;
+    }
+
+    .stats-card {
+      display: none;
+    }
+  }
+</style>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effect to view buttons
+    const viewButtons = document.querySelectorAll('.btn-view');
+    viewButtons.forEach(btn => {
+      btn.addEventListener('mouseenter', function() {
+        const icon = this.querySelector('i');
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-chart-line');
+      });
+
+      btn.addEventListener('mouseleave', function() {
+        const icon = this.querySelector('i');
+        icon.classList.remove('fa-chart-line');
+        icon.classList.add('fa-eye');
+      });
+    });
+  });
+</script>
+
+</body>
+{% endblock %}

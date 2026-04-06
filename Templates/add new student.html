@@ -1,0 +1,470 @@
+{% extends 'admin/adminindex.html' %}
+{% block body %}
+
+<style>
+  .add-student-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+
+  .form-header {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+    padding: 35px;
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(17, 153, 142, 0.3);
+  }
+
+  .form-header h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .form-header p {
+    margin: 12px 0 0 0;
+    opacity: 0.95;
+    font-size: 15px;
+  }
+
+  .form-card {
+    background: white;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 45px;
+  }
+
+  .form-section {
+    margin-bottom: 35px;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #11998e;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #38ef7d;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 25px;
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+  .form-label {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
+  .label-icon {
+    display: inline-block;
+    width: 24px;
+    text-align: center;
+    margin-right: 6px;
+  }
+
+  .required {
+    color: #dc3545;
+    margin-left: 3px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 13px 18px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    background: #fafafa;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #11998e;
+    box-shadow: 0 0 0 4px rgba(17, 153, 142, 0.1);
+    background: white;
+  }
+
+  .form-input:hover {
+    border-color: #11998e;
+    background: white;
+  }
+
+  /* Radio Button Styling */
+  .radio-group {
+    display: flex;
+    gap: 35px;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+  }
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .radio-option input[type="radio"] {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #11998e;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .radio-option input[type="radio"]:checked {
+    background: #11998e;
+    border-color: #11998e;
+  }
+
+  .radio-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+  }
+
+  .radio-option label {
+    font-size: 15px;
+    color: #495057;
+    cursor: pointer;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  /* File Upload Styling */
+  .file-upload-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .file-upload-input {
+    width: 100%;
+    padding: 40px 20px;
+    border: 3px dashed #11998e;
+    border-radius: 10px;
+    background: #f0fdf4;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    color: #666;
+  }
+
+  .file-upload-input:hover {
+    background: #dcfce7;
+    border-color: #38ef7d;
+  }
+
+  .upload-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .upload-icon {
+    font-size: 40px;
+  }
+
+  .file-info {
+    font-size: 13px;
+    color: #6c757d;
+    margin-top: 5px;
+  }
+
+  /* Password Input */
+  .password-wrapper {
+    position: relative;
+  }
+
+  .toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+    transition: color 0.3s ease;
+  }
+
+  .toggle-password:hover {
+    color: #11998e;
+  }
+
+  /* Submit Button */
+  .submit-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid #f0f0f0;
+    text-align: center;
+  }
+
+  .btn-submit {
+    padding: 16px 60px;
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 20px rgba(17, 153, 142, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(17, 153, 142, 0.6);
+  }
+
+  .btn-submit:active {
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .add-student-container {
+      margin: 20px auto;
+      padding: 15px;
+    }
+
+    .form-card {
+      padding: 30px 20px;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .radio-group {
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-header h2 {
+      font-size: 26px;
+    }
+
+    .form-header {
+      padding: 25px 20px;
+    }
+  }
+
+  /* Helper Text */
+  .helper-text {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 5px;
+    font-style: italic;
+  }
+</style>
+
+<div class="add-student-container">
+  <div class="form-header">
+    <h2>
+      <span>➕</span>
+      <span>Add New Student</span>
+    </h2>
+    <p>Fill in the details below to register a new student</p>
+  </div>
+
+  <div class="form-card">
+    <form id="form1" name="form1" method="post" action="addnewstudent" enctype="multipart/form-data">
+
+      <!-- Personal Information Section -->
+      <div class="form-section">
+        <div class="section-title">
+          <span>👤</span> Personal Information
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-icon">📝</span>
+              First Name<span class="required">*</span>
+            </label>
+            <input type="text" name="textfield" class="form-input"
+                   placeholder="Enter first name" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-icon">📝</span>
+              Last Name<span class="required">*</span>
+            </label>
+            <input type="text" name="textfield8" class="form-input"
+                   placeholder="Enter last name" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-icon">📅</span>
+              Date of Birth<span class="required">*</span>
+            </label>
+            <input type="date" name="textfield2" class="form-input" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-icon">⚧</span>
+              Gender<span class="required">*</span>
+            </label>
+            <div class="radio-group">
+              <div class="radio-option">
+                <input type="radio" id="male" name="Gender" value="male" required>
+                <label for="male">Male</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="female" name="Gender" value="female" required>
+                <label for="female">Female</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <span class="label-icon">📷</span>
+            Profile Image
+          </label>
+          <div class="file-upload-wrapper">
+            <label for="file-input" class="file-upload-input">
+              <div class="upload-text">
+                <span class="upload-icon">☁️</span>
+                <span><strong>Click to upload</strong> or drag and drop</span>
+                <span class="file-info">PNG, JPG or JPEG (MAX. 5MB)</span>
+              </div>
+            </label>
+            <input type="file" id="file-input" name="file" accept="image/*" style="display: none;"
+                   onchange="document.querySelector('.upload-text span:nth-child(2)').innerHTML = this.files[0] ? '<strong>Selected: </strong>' + this.files[0].name : '<strong>Click to upload</strong> or drag and drop'" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Information Section -->
+      <div class="form-section">
+        <div class="section-title">
+          <span>📞</span> Contact Information
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-icon">📱</span>
+              Phone Number<span class="required">*</span>
+            </label>
+            <input type="tel" name="textfield4" class="form-input"
+                   placeholder="Enter phone number" pattern="[0-9]{10}" required />
+            <div class="helper-text">Format: 10 digits</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-icon">📧</span>
+              Email Address<span class="required">*</span>
+            </label>
+            <input type="email" name="textfield5" class="form-input"
+                   placeholder="student@example.com" required />
+          </div>
+        </div>
+      </div>
+
+      <!-- Account Information Section -->
+      <div class="form-section">
+        <div class="section-title">
+          <span>🔐</span> Account Credentials
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-icon">👤</span>
+              Username<span class="required">*</span>
+            </label>
+            <input type="text" name="textfield6" class="form-input"
+                   placeholder="Choose a username" required />
+            <div class="helper-text">Minimum 4 characters</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <span class="label-icon">🔒</span>
+              Password<span class="required">*</span>
+            </label>
+            <div class="password-wrapper">
+              <input type="password" id="password" name="textfield7" class="form-input"
+                     placeholder="Create a password" required />
+              <span class="toggle-password" onclick="togglePassword()">👁️</span>
+            </div>
+            <div class="helper-text">Minimum 8 characters, include letters and numbers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="submit-section">
+        <button type="submit" name="Submit" class="btn-submit">
+          ✓ Add Student
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  function togglePassword() {
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.querySelector('.toggle-password');
+
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      toggleIcon.textContent = '🙈';
+    } else {
+      passwordInput.type = 'password';
+      toggleIcon.textContent = '👁️';
+    }
+  }
+</script>
+
+{% endblock %}

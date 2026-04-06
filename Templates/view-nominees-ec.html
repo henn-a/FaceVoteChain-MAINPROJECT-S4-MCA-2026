@@ -1,0 +1,440 @@
+{% extends 'staff/electionindex.html' %}
+{% block body %}
+
+<body>
+<div class="container-fluid mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-lg">
+        <div class="card-header bg-gradient text-white">
+          <h4 class="mb-0"><i class="fas fa-user-check"></i> Verify Nominations</h4>
+        </div>
+        <div class="card-body">
+
+          <!-- Search Form -->
+          <form id="form1" name="form1" method="post" action="" class="mb-4">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-8">
+                <label for="searchDate" class="form-label fw-bold">
+                  <i class="fas fa-calendar-search text-primary"></i> Search by Date
+                </label>
+                <input type="date" class="form-control form-control-lg" id="searchDate"
+                       name="textfield" required />
+              </div>
+              <div class="col-md-4">
+                <button type="submit" name="Submit" class="btn btn-primary btn-lg w-100">
+                  <i class="fas fa-search"></i> Search
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Results Table -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th width="18%"><i class="fas fa-user"></i> Student Name</th>
+                  <th width="15%"><i class="fas fa-calendar-alt"></i> Election Date</th>
+                  <th width="15%"><i class="fas fa-briefcase"></i> Post</th>
+                  <th width="15%"><i class="fas fa-clock"></i> Submission Date</th>
+                  <th width="12%" class="text-center"><i class="fas fa-info-circle"></i> Status</th>
+                  <th width="25%" class="text-center"><i class="fas fa-tasks"></i> Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if val %}
+                  {% for i in val %}
+                  <tr class="nomination-row">
+                    <td>
+                      <div class="student-info">
+                        <i class="fas fa-user-graduate text-primary me-2"></i>
+                        <strong>{{ i.STUDENT.Fname }} {{ i.STUDENT.Lname }}</strong>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="date-badge">
+                        <i class="fas fa-calendar-day"></i> {{ i.ELECTION_DATE.election_date }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="post-badge">
+                        <i class="fas fa-award text-warning"></i> {{ i.ELECTION_DATE.post }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="text-muted">{{ i.date }}</span>
+                    </td>
+                    <td class="text-center">
+                      {% if i.status == "pending" %}
+                        <span class="badge status-pending">
+                          <i class="fas fa-hourglass-half"></i> Pending
+                        </span>
+                      {% elif i.status == "accepted" %}
+                        <span class="badge status-accepted">
+                          <i class="fas fa-check-circle"></i> Accepted
+                        </span>
+                      {% elif i.status == "rejected" %}
+                        <span class="badge status-rejected">
+                          <i class="fas fa-times-circle"></i> Rejected
+                        </span>
+                      {% else %}
+                        <span class="badge bg-secondary">
+                          <i class="fas fa-question-circle"></i> {{ i.status }}
+                        </span>
+                      {% endif %}
+                    </td>
+                    <td class="text-center">
+                      <div class="action-buttons">
+                        {% if i.status == "pending" %}
+                          <a href="accept/{{ i.id }}#works" class="btn btn-success btn-sm">
+                            <i class="fas fa-check"></i> Accept
+                          </a>
+                          <a href="reject/{{ i.id }}#works" class="btn btn-danger btn-sm">
+                            <i class="fas fa-times"></i> Reject
+                          </a>
+                        {% elif i.status == "accepted" %}
+                          <a href="reject/{{ i.id }}#works" class="btn btn-danger btn-sm">
+                            <i class="fas fa-times"></i> Reject
+                          </a>
+                          <span class="text-success">
+                            <i class="fas fa-check-circle"></i> Approved
+                          </span>
+                        {% elif i.status == "rejected" %}
+                          <a href="accept/{{ i.id }}#works" class="btn btn-success btn-sm">
+                            <i class="fas fa-check"></i> Accept
+                          </a>
+                          <span class="text-danger">
+                            <i class="fas fa-ban"></i> Declined
+                          </span>
+                        {% endif %}
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="6" class="text-center text-muted py-5">
+                      <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+                      <h5>No Nominations Found</h5>
+                      <p class="mb-0">Try searching with a different date</p>
+                    </td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Statistics -->
+          {% if val %}
+          <div class="stats-section mt-4">
+            <div class="row text-center">
+              <div class="col-md-3">
+                <div class="stat-box">
+                  <i class="fas fa-list-ul fa-2x text-primary mb-2"></i>
+                  <h5 id="totalNominations">{{ val|length }}</h5>
+                  <p class="text-muted mb-0">Total Nominations</p>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-box">
+                  <i class="fas fa-hourglass-half fa-2x text-warning mb-2"></i>
+                  <h5 id="pendingCount">-</h5>
+                  <p class="text-muted mb-0">Pending</p>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-box">
+                  <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                  <h5 id="acceptedCount">-</h5>
+                  <p class="text-muted mb-0">Accepted</p>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-box">
+                  <i class="fas fa-times-circle fa-2x text-danger mb-2"></i>
+                  <h5 id="rejectedCount">-</h5>
+                  <p class="text-muted mb-0">Rejected</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 1rem 0;
+    min-height: 100vh;
+  }
+
+  .card {
+    border-radius: 15px;
+    border: none;
+    animation: fadeIn 0.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card-header.bg-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 1.5rem;
+    border-bottom: none;
+  }
+
+  .card-header h4 {
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .form-control {
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+  }
+
+  .form-label {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+
+  .table {
+    margin-bottom: 0;
+  }
+
+  .table thead th {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-top: none;
+    padding: 1rem;
+    vertical-align: middle;
+  }
+
+  .table tbody td {
+    padding: 1.25rem;
+    vertical-align: middle;
+  }
+
+  .nomination-row {
+    transition: all 0.3s ease;
+  }
+
+  .nomination-row:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+  }
+
+  .student-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+    color: #495057;
+  }
+
+  .post-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .badge {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  .status-pending {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+    color: #856404;
+  }
+
+  .status-accepted {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    color: #155724;
+  }
+
+  .status-rejected {
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c2c7 100%);
+    color: #721c24;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-success, .btn-danger {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+  }
+
+  .btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
+  }
+
+  .table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .stats-section {
+    padding-top: 1.5rem;
+    border-top: 2px solid #e9ecef;
+  }
+
+  .stat-box {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .stat-box h5 {
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0.5rem 0;
+    font-size: 1.8rem;
+  }
+
+  .shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.175) !important;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .table {
+      font-size: 0.85rem;
+    }
+
+    .btn-primary {
+      padding: 0.65rem 1.5rem;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+    }
+
+    .stat-box {
+      margin-bottom: 1rem;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.5rem 0.8rem;
+    }
+  }
+</style>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Count statuses
+    const statusBadges = document.querySelectorAll('.badge');
+    let pending = 0, accepted = 0, rejected = 0;
+
+    statusBadges.forEach(badge => {
+      if (badge.classList.contains('status-pending')) pending++;
+      else if (badge.classList.contains('status-accepted')) accepted++;
+      else if (badge.classList.contains('status-rejected')) rejected++;
+    });
+
+    // Update stats
+    if (document.getElementById('pendingCount')) {
+      document.getElementById('pendingCount').textContent = pending;
+    }
+    if (document.getElementById('acceptedCount')) {
+      document.getElementById('acceptedCount').textContent = accepted;
+    }
+    if (document.getElementById('rejectedCount')) {
+      document.getElementById('rejectedCount').textContent = rejected;
+    }
+
+    // Add confirmation dialogs
+    const rejectButtons = document.querySelectorAll('a[href*="reject"]');
+    rejectButtons.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        if (!confirm('Are you sure you want to reject this nomination?')) {
+          e.preventDefault();
+        }
+      });
+    });
+
+    const acceptButtons = document.querySelectorAll('a[href*="accept"]');
+    acceptButtons.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        if (!confirm('Are you sure you want to accept this nomination?')) {
+          e.preventDefault();
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+{% endblock %}

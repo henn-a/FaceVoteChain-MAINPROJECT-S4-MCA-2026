@@ -1,0 +1,643 @@
+<!--Author: W3layouts-->
+<html lang="en">
+
+<head>
+   <title>E-Voting System - Secure Login</title>
+   <!-- Meta tag Keywords -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta charset="UTF-8" />
+   <meta name="keywords" content="E-Voting, Login Form, Secure Login, Electronic Voting System" />
+
+   <script>
+      addEventListener("load", function () {
+         setTimeout(hideURLbar, 0);
+      }, false);
+
+      function hideURLbar() {
+         window.scrollTo(0, 1);
+      }
+   </script>
+
+   <!-- css files -->
+   <link rel="stylesheet" href="../static/newlogin/css/style.css" type="text/css" media="all" />
+   <link rel="stylesheet" href="../static/newlogin/css/fontawesome-all.css">
+   <!-- Font Awesome 6 -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   <!-- web-fonts -->
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+   <style>
+      * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+      }
+
+      body {
+         font-family: 'Poppins', sans-serif;
+         overflow-x: hidden;
+      }
+
+      .video-w3l {
+         position: relative;
+         min-height: 100vh;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         padding: 2rem;
+      }
+
+      /* Video Overlay */
+      .video-w3l::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
+         z-index: 1;
+      }
+
+      /* Animated Background Particles */
+      .video-w3l::after {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-image:
+            radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+         z-index: 1;
+         animation: float 20s ease-in-out infinite;
+      }
+
+      @keyframes float {
+         0%, 100% { transform: translateY(0); }
+         50% { transform: translateY(-20px); }
+      }
+
+      .video-w3l > * {
+         position: relative;
+         z-index: 2;
+      }
+
+      /* Title */
+      h1 {
+         color: #fff;
+         font-size: 3.5rem;
+         font-weight: 800;
+         text-align: center;
+         margin-bottom: 2rem;
+         text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+         animation: fadeInDown 1s ease;
+      }
+
+      h1 span {
+         color: #ffd700;
+         font-size: 4rem;
+         display: inline-block;
+         animation: bounce 2s ease-in-out infinite;
+      }
+
+      @keyframes fadeInDown {
+         from {
+            opacity: 0;
+            transform: translateY(-30px);
+         }
+         to {
+            opacity: 1;
+            transform: translateY(0);
+         }
+      }
+
+      @keyframes bounce {
+         0%, 100% { transform: translateY(0); }
+         50% { transform: translateY(-10px); }
+      }
+
+      /* Login Form Container */
+      .sub-main-w3 {
+         background: rgba(255, 255, 255, 0.95);
+         backdrop-filter: blur(10px);
+         padding: 3rem;
+         border-radius: 20px;
+         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+         width: 100%;
+         max-width: 450px;
+         animation: zoomIn 0.8s ease;
+         border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      @keyframes zoomIn {
+         from {
+            opacity: 0;
+            transform: scale(0.8);
+         }
+         to {
+            opacity: 1;
+            transform: scale(1);
+         }
+      }
+
+      /* Logo/Brand Section */
+      .brand-section {
+         text-align: center;
+         margin-bottom: 2rem;
+      }
+
+      .brand-icon {
+         width: 80px;
+         height: 80px;
+         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+         border-radius: 50%;
+         display: inline-flex;
+         align-items: center;
+         justify-content: center;
+         margin-bottom: 1rem;
+         box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+         animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+         0%, 100% { transform: scale(1); }
+         50% { transform: scale(1.05); }
+      }
+
+      .brand-icon i {
+         font-size: 2.5rem;
+         color: #fff;
+      }
+
+      .brand-title {
+         font-size: 1.5rem;
+         font-weight: 700;
+         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+         background-clip: text;
+      }
+
+      /* Form Styles */
+      .form-style-agile {
+         margin-bottom: 1.5rem;
+         position: relative;
+      }
+
+      .form-style-agile label {
+         display: block;
+         color: #2c3e50;
+         font-weight: 600;
+         margin-bottom: 0.5rem;
+         font-size: 0.95rem;
+      }
+
+      .form-style-agile label i {
+         margin-right: 0.5rem;
+         color: #667eea;
+      }
+
+      .form-style-agile input {
+         width: 100%;
+         padding: 1rem 1.25rem 1rem 3rem;
+         border: 2px solid #e1e8ed;
+         border-radius: 10px;
+         font-size: 1rem;
+         transition: all 0.3s ease;
+         background: #fff;
+         font-family: 'Poppins', sans-serif;
+      }
+
+      .form-style-agile .input-icon {
+         position: absolute;
+         left: 1rem;
+         bottom: 1rem;
+         color: #adb5bd;
+         transition: all 0.3s ease;
+      }
+
+      .form-style-agile input:focus {
+         outline: none;
+         border-color: #667eea;
+         box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+         transform: translateY(-2px);
+      }
+
+      .form-style-agile input:focus + .input-icon {
+         color: #667eea;
+      }
+
+      .form-style-agile input::placeholder {
+         color: #adb5bd;
+      }
+
+      /* Password Toggle */
+      .password-toggle {
+         position: absolute;
+         right: 1rem;
+         bottom: 1rem;
+         cursor: pointer;
+         color: #adb5bd;
+         transition: all 0.3s ease;
+      }
+
+      .password-toggle:hover {
+         color: #667eea;
+      }
+
+      /* Remember Me Checkbox */
+      .checkout-w3l {
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         margin-bottom: 1.5rem;
+      }
+
+      .checkout-w3l a {
+         color: #667eea;
+         text-decoration: none;
+         font-weight: 600;
+         font-size: 0.9rem;
+         transition: all 0.3s ease;
+      }
+
+      .checkout-w3l a:hover {
+         color: #764ba2;
+         text-decoration: underline;
+      }
+
+      /* Custom Checkbox */
+      .demo5 .switch {
+         display: inline-block;
+      }
+
+      .demo5 .switch input {
+         display: none;
+      }
+
+      .demo5 .switch label {
+         position: relative;
+         width: 50px;
+         height: 26px;
+         background: #ddd;
+         border-radius: 13px;
+         display: inline-block;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         margin: 0;
+      }
+
+      .demo5 .switch label i {
+         position: absolute;
+         top: 3px;
+         left: 3px;
+         width: 20px;
+         height: 20px;
+         background: #fff;
+         border-radius: 50%;
+         transition: all 0.3s ease;
+         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .demo5 .switch input:checked + label {
+         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .demo5 .switch input:checked + label i {
+         left: 27px;
+      }
+
+      /* Submit Button */
+      input[type="submit"] {
+         width: 100%;
+         padding: 1rem;
+         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+         color: #fff;
+         border: none;
+         border-radius: 10px;
+         font-size: 1.1rem;
+         font-weight: 700;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+         margin-bottom: 1.5rem;
+         box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+         position: relative;
+         overflow: hidden;
+      }
+
+      input[type="submit"]::before {
+         content: '';
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         width: 0;
+         height: 0;
+         border-radius: 50%;
+         background: rgba(255, 255, 255, 0.3);
+         transform: translate(-50%, -50%);
+         transition: width 0.6s, height 0.6s;
+      }
+
+      input[type="submit"]:hover::before {
+         width: 300px;
+         height: 300px;
+      }
+
+      input[type="submit"]:hover {
+         transform: translateY(-3px);
+         box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+      }
+
+      input[type="submit"]:active {
+         transform: translateY(-1px);
+      }
+
+      /* Social Login */
+      .footer-social {
+         text-align: center;
+         padding-top: 1.5rem;
+         border-top: 2px solid #e9ecef;
+      }
+
+      .footer-social h2 {
+         color: #6c757d;
+         font-size: 0.9rem;
+         font-weight: 500;
+         margin-bottom: 1rem;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+      }
+
+      .footer-social ul {
+         list-style: none;
+         display: flex;
+         justify-content: center;
+         gap: 1rem;
+      }
+
+      .footer-social ul li a {
+         width: 45px;
+         height: 45px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         border-radius: 50%;
+         transition: all 0.3s ease;
+         font-size: 1.2rem;
+         position: relative;
+      }
+
+      .icon_facebook {
+         color: #fff;
+         background: #3b5998;
+      }
+
+      .icon_twitter {
+         color: #fff;
+         background: #1da1f2;
+      }
+
+      .icon_dribbble {
+         color: #fff;
+         background: #ea4c89;
+      }
+
+      .icon_g_plus {
+         color: #fff;
+         background: #dd4b39;
+      }
+
+      .footer-social ul li a:hover {
+         transform: translateY(-5px) rotate(360deg);
+         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Footer */
+      .footer {
+         position: absolute;
+         bottom: 20px;
+         text-align: center;
+         color: #fff;
+         font-size: 0.9rem;
+         z-index: 2;
+      }
+
+      .footer p {
+         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .footer a {
+         color: #ffd700;
+         text-decoration: none;
+         font-weight: 600;
+      }
+
+      .footer a:hover {
+         text-decoration: underline;
+      }
+
+      /* Loading Animation */
+      .loading {
+         pointer-events: none;
+         opacity: 0.6;
+      }
+
+      .loading input[type="submit"]::after {
+         content: '';
+         position: absolute;
+         width: 20px;
+         height: 20px;
+         top: 50%;
+         left: 50%;
+         margin: -10px 0 0 -10px;
+         border: 3px solid rgba(255, 255, 255, 0.3);
+         border-top-color: #fff;
+         border-radius: 50%;
+         animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+         to { transform: rotate(360deg); }
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+         h1 {
+            font-size: 2.5rem;
+         }
+
+         h1 span {
+            font-size: 3rem;
+         }
+
+         .sub-main-w3 {
+            padding: 2rem;
+         }
+
+         .footer-social ul {
+            gap: 0.75rem;
+         }
+
+         .footer-social ul li a {
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
+         }
+
+         .brand-icon {
+            width: 70px;
+            height: 70px;
+         }
+
+         .brand-icon i {
+            font-size: 2rem;
+         }
+      }
+
+      @media (max-width: 480px) {
+         h1 {
+            font-size: 2rem;
+         }
+
+         h1 span {
+            font-size: 2.5rem;
+         }
+
+         .sub-main-w3 {
+            padding: 1.5rem;
+         }
+
+         .brand-title {
+            font-size: 1.2rem;
+         }
+      }
+   </style>
+</head>
+
+<body>
+   <div class="video-w3l" data-vide-bg="../static/newlogin/video/4669325-uhd_4096_2160_25fps.mp4">
+      <!-- title -->
+      <h1>
+         <span>E</span>-Voting
+         <span>S</span>ystem
+      </h1>
+      <!-- //title -->
+
+      <!-- content -->
+      <div class="sub-main-w3">
+         <!-- Brand Section -->
+         <div class="brand-section">
+            <div class="brand-icon">
+               <i class="fas fa-vote-yea"></i>
+            </div>
+            <div class="brand-title">Secure Login</div>
+         </div>
+
+         <form action="loginverify" method="post" id="loginForm">
+            <div class="form-style-agile">
+               <label>
+                  <i class="fas fa-user"></i>Username
+               </label>
+               <input placeholder="Enter your username" name="Name" type="text" required="">
+               <i class="fas fa-user input-icon"></i>
+            </div>
+
+            <div class="form-style-agile">
+               <label>
+                  <i class="fas fa-lock"></i>Password
+               </label>
+               <input placeholder="Enter your password" name="Password" type="password" id="passwordInput" required="">
+               <i class="fas fa-lock input-icon"></i>
+               <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+            </div>
+
+            <!-- switch -->
+            <div class="checkout-w3l">
+               <div class="demo5">
+                  <div class="switch demo3">
+                     <input type="checkbox" id="rememberMe">
+                     <label for="rememberMe">
+                        <i></i>
+                     </label>
+                  </div>
+               </div>
+               <a href="#">Remember Me</a>
+            </div>
+            <!-- //switch -->
+
+            <input type="submit" value="Log In">
+
+            <!-- social icons -->
+            <div class="footer-social">
+               <h2>Or Login With</h2>
+               <ul>
+                  <li>
+                     <a href="#" title="Facebook">
+                        <i class="fab fa-facebook-f icon_facebook"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="#" title="Twitter">
+                        <i class="fab fa-twitter icon_twitter"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="#" title="Dribbble">
+                        <i class="fab fa-dribbble icon_dribbble"></i>
+                     </a>
+                  </li>
+                  <li>
+                     <a href="#" title="Google Plus">
+                        <i class="fab fa-google-plus-g icon_g_plus"></i>
+                     </a>
+                  </li>
+               </ul>
+            </div>
+            <!-- //social icons -->
+         </form>
+      </div>
+      <!-- //content -->
+
+      <!-- copyright -->
+      <div class="footer">
+         <p>&copy; 2024 E-Voting System. All rights reserved | Design by
+            <a href="http://w3layouts.com">W3layouts</a>
+         </p>
+      </div>
+      <!-- //copyright -->
+   </div>
+
+   <!-- Jquery -->
+   <script src="../static/newlogin/js/jquery-2.2.3.min.js"></script>
+   <!-- Video js -->
+   <script src="../static/newlogin/js/jquery.vide.min.js"></script>
+
+   <script>
+      // Password Toggle
+      const togglePassword = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('passwordInput');
+
+      togglePassword.addEventListener('click', function() {
+         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+         passwordInput.setAttribute('type', type);
+         this.classList.toggle('fa-eye');
+         this.classList.toggle('fa-eye-slash');
+      });
+
+      // Form Submit Animation
+      const loginForm = document.getElementById('loginForm');
+      loginForm.addEventListener('submit', function(e) {
+         this.classList.add('loading');
+      });
+   </script>
+
+</body>
+
+</html>

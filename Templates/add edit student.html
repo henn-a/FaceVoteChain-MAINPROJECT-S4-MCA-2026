@@ -1,0 +1,336 @@
+{% extends 'admin/adminindex.html' %}
+{% block body %}
+
+<style>
+  .student-form-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+
+  .form-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  }
+
+  .form-header h2 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 28px;
+  }
+
+  .form-header p {
+    margin: 10px 0 0 0;
+    opacity: 0.9;
+    font-size: 14px;
+  }
+
+  .form-card {
+    background: white;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    padding: 40px;
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+  .form-label {
+    display: block;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .form-label::after {
+    content: " *";
+    color: #dc3545;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  }
+
+  .form-input:hover {
+    border-color: #b0b0b0;
+  }
+
+  /* Radio Button Styling */
+  .radio-group {
+    display: flex;
+    gap: 30px;
+    padding: 12px 0;
+  }
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .radio-option input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    cursor: pointer;
+    accent-color: #667eea;
+  }
+
+  .radio-option label {
+    font-size: 15px;
+    color: #495057;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  /* File Upload Styling */
+  .file-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .file-input-wrapper {
+    position: relative;
+  }
+
+  .file-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed #667eea;
+    border-radius: 8px;
+    background: #f8f9ff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .file-input:hover {
+    background: #eef0ff;
+    border-color: #764ba2;
+  }
+
+  .current-image {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+  }
+
+  .current-image img {
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .image-label {
+    color: #6c757d;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* Submit Button */
+  .submit-section {
+    margin-top: 35px;
+    text-align: center;
+  }
+
+  .btn-submit {
+    padding: 14px 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+  }
+
+  .btn-submit:active {
+    transform: translateY(-1px);
+  }
+
+  /* Row Layout for Name Fields */
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* Icons */
+  .input-icon {
+    margin-right: 8px;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .student-form-container {
+      margin: 20px auto;
+      padding: 15px;
+    }
+
+    .form-card {
+      padding: 25px 20px;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .radio-group {
+      gap: 20px;
+    }
+
+    .form-header {
+      padding: 20px;
+    }
+
+    .form-header h2 {
+      font-size: 24px;
+    }
+  }
+
+  /* Validation Styles */
+  .form-input:invalid {
+    border-color: #e0e0e0;
+  }
+
+  .form-input:valid {
+    border-color: #28a745;
+  }
+</style>
+
+<div class="student-form-container">
+  <div class="form-header">
+    <h2>👨‍🎓 Edit Student Information</h2>
+    <p>Update student details and profile information</p>
+  </div>
+
+  <div class="form-card">
+    <form id="form1" name="form1" method="post" action="/addeditstudentadd" enctype="multipart/form-data">
+
+      <!-- Name Fields -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">
+            <span class="input-icon">📝</span> First Name
+          </label>
+          <input type="text" name="textfield" class="form-input" value="{{ val.Fname }}"
+                 placeholder="Enter first name" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <span class="input-icon">📝</span> Last Name
+          </label>
+          <input type="text" name="textfield8" class="form-input" value="{{ val.Lname }}"
+                 placeholder="Enter last name" required />
+        </div>
+      </div>
+
+      <!-- Date of Birth -->
+      <div class="form-group">
+        <label class="form-label">
+          <span class="input-icon">📅</span> Date of Birth
+        </label>
+        <input type="date" name="textfield2" class="form-input" value="{{ date }}" required />
+      </div>
+
+      <!-- Gender -->
+      <div class="form-group">
+        <label class="form-label">
+          <span class="input-icon">⚧</span> Gender
+        </label>
+        <div class="radio-group">
+          <div class="radio-option">
+            <input type="radio" id="male" name="Gender" value="male"
+                   {% if val.Gender == 'male' %}checked{% endif %}>
+            <label for="male">Male</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" id="female" name="Gender" value="female"
+                   {% if val.Gender == 'female' %}checked{% endif %}>
+            <label for="female">Female</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Upload -->
+      <div class="form-group">
+        <label class="form-label">
+          <span class="input-icon">📷</span> Profile Image
+        </label>
+        <div class="file-upload-container">
+          <input type="file" name="file" class="file-input" accept="image/*" />
+
+          {% if val.image %}
+          <div class="current-image">
+            <img src="{{ val.image.url }}" height="100" width="100" alt="Current Profile" />
+            <span class="image-label">Current Profile Picture</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label class="form-label">
+          <span class="input-icon">📞</span> Phone Number
+        </label>
+        <input type="tel" name="textfield4" class="form-input" value="{{ val.phone_no }}"
+               placeholder="Enter phone number" pattern="[0-9]{10}" required />
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label class="form-label">
+          <span class="input-icon">📧</span> Email Address
+        </label>
+        <input type="email" name="textfield5" class="form-input" value="{{ val.Email }}"
+               placeholder="student@example.com" required />
+      </div>
+
+      <!-- Submit Button -->
+      <div class="submit-section">
+        <button type="submit" name="Submit" class="btn-submit">
+          ✓ Update Student
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+{% endblock %}

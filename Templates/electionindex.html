@@ -1,0 +1,462 @@
+{% load static %}
+<html class="no-js" lang="en">
+    <head>
+        <!-- meta data -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--font-family-->
+		<link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+        <!-- title of site -->
+        <title>Election Coordinator - E-Voting System</title>
+
+        <!--font-awesome.min.css-->
+        <link rel="stylesheet" href="../static/HOMEADMIN/assets/css/font-awesome.min.css">
+
+        <!--linear icon css-->
+		<link rel="stylesheet" href="../static/HOMEADMIN/assets/css/linearicons.css">
+
+		<!--animate.css-->
+        <link rel="stylesheet" href="../static/HOMEADMIN/assets/css/animate.css">
+
+		<!--flaticon.css-->
+        <link rel="stylesheet" href="../static/HOMEADMIN/assets/css/flaticon.css">
+
+		<!--slick.css-->
+        <link rel="stylesheet" href="../static/HOMEADMIN/assets/css/slick.css">
+		<link rel="stylesheet" href="../static/HOMEADMIN/assets/css/slick-theme.css">
+
+        <!--bootstrap.min.css-->
+        <link rel="stylesheet" href="../static/HOMEADMIN/assets/css/bootstrap.min.css">
+
+		<!-- bootsnav -->
+		<link rel="stylesheet" href="../static/HOMEADMIN/assets/css/bootsnav.css" >
+
+        <!--style.css-->
+        <link rel="stylesheet" href="../static/HOMEADMIN/assets/css/style.css">
+
+        <!--responsive.css-->
+        <link rel="stylesheet" href="../static/HOMEADMIN/assets/css/responsive.css">
+
+        <!-- Font Awesome 6 for modern icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+        <!-- Custom Styles -->
+        <style>
+            /* Enhanced Navigation */
+            .navbar-brand {
+                font-size: 1.8rem;
+                font-weight: 700;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .navbar-brand span {
+                font-weight: 900;
+            }
+
+            .navbar-right li a {
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                transition: all 0.3s ease;
+            }
+
+            .navbar-right li a:hover {
+                color: #667eea !important;
+                transform: translateY(-2px);
+            }
+
+            /* Enhanced Welcome Hero */
+            .welcome-hero {
+                background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%),
+                            url('../static/HOMEADMIN/assets/images/welcome-hero/banner.jpg') center center;
+                background-size: cover;
+                padding: 150px 0 120px;
+                position: relative;
+            }
+
+            .welcome-hero::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.3);
+                z-index: 1;
+            }
+
+            .welcome-hero-txt {
+                position: relative;
+                z-index: 2;
+                animation: fadeInUp 1s ease;
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .welcome-hero-txt h2 {
+                font-size: 3rem;
+                font-weight: 800;
+                color: #fff;
+                text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+                margin-bottom: 20px;
+                line-height: 1.3;
+            }
+
+            .welcome-hero-txt p {
+                font-size: 1.2rem;
+                color: #fff;
+                margin-bottom: 15px;
+                line-height: 1.8;
+                text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            }
+
+            .welcome-hero-txt p:last-child {
+                font-size: 1.4rem;
+                font-weight: 600;
+                background: rgba(255, 255, 255, 0.2);
+                padding: 15px 30px;
+                border-radius: 50px;
+                display: inline-block;
+                margin-top: 20px;
+                border: 2px solid rgba(255, 255, 255, 0.3);
+            }
+
+            /* Enhanced Topic Cards */
+            .list-topics {
+                padding: 80px 0;
+                background: #f8f9fa;
+            }
+
+            .single-list-topics-content {
+                background: #fff;
+                border-radius: 15px;
+                padding: 40px 20px;
+                text-align: center;
+                transition: all 0.4s ease;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+                height: 100%;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .single-list-topics-content::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 5px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                transform: scaleX(0);
+                transition: transform 0.4s ease;
+            }
+
+            .single-list-topics-content:hover::before {
+                transform: scaleX(1);
+            }
+
+            .single-list-topics-content:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+            }
+
+            .single-list-topics-icon {
+                width: 100px;
+                height: 100px;
+                margin: 0 auto 25px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.4s ease;
+            }
+
+            .single-list-topics-content:hover .single-list-topics-icon {
+                transform: rotateY(360deg);
+            }
+
+            .single-list-topics-icon i {
+                font-size: 3rem;
+                color: #fff;
+            }
+
+            .single-list-topics-content h2 {
+                font-size: 1.3rem;
+                font-weight: 700;
+                margin-bottom: 15px;
+                line-height: 1.5;
+            }
+
+            .single-list-topics-content h2 a {
+                color: #2c3e50;
+                transition: all 0.3s ease;
+                text-decoration: none;
+            }
+
+            .single-list-topics-content:hover h2 a {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            /* Works Section */
+            .works {
+                padding: 80px 0;
+                background: #fff;
+            }
+
+            .section-header h2 {
+                font-size: 2.5rem;
+                font-weight: 800;
+                color: #2c3e50;
+                margin-bottom: 40px;
+                position: relative;
+                padding-bottom: 20px;
+            }
+
+            .section-header h2::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100px;
+                height: 4px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 2px;
+            }
+
+            /* Footer Enhancements */
+            .footer {
+                background: #2c3e50;
+                padding: 40px 0 20px;
+            }
+
+            .footer-social a {
+                width: 45px;
+                height: 45px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(255, 255, 255, 0.1);
+                color: #fff;
+                border-radius: 50%;
+                margin: 0 5px;
+                transition: all 0.3s ease;
+            }
+
+            .footer-social a:hover {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                transform: translateY(-5px);
+            }
+
+            /* Scroll to Top */
+            #scroll-Top {
+                position: fixed;
+                right: 30px;
+                bottom: 30px;
+                z-index: 999;
+            }
+
+            .return-to-top {
+                width: 50px;
+                height: 50px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            }
+
+            .return-to-top:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+            }
+
+            .return-to-top i {
+                color: #fff;
+                font-size: 1.5rem;
+            }
+
+            /* Responsive */
+            @media (max-width: 768px) {
+                .welcome-hero-txt h2 {
+                    font-size: 2rem;
+                }
+
+                .welcome-hero-txt p {
+                    font-size: 1rem;
+                }
+
+                .welcome-hero-txt p:last-child {
+                    font-size: 1.1rem;
+                }
+
+                .single-list-topics-content {
+                    margin-bottom: 30px;
+                }
+            }
+        </style>
+
+    </head>
+
+	<body>
+
+		<!--header-top start -->
+		<header id="header-top" class="header-top">
+		</header><!--/.header-top-->
+		<!--header-top end -->
+
+		<!-- top-area Start -->
+		<section class="top-area">
+			<div class="header-area">
+				<!-- Start Navigation -->
+			    <nav class="navbar navbar-default bootsnav navbar-sticky navbar-scrollspy" data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
+			        <div class="container">
+			            <!-- Start Header Navigation -->
+			            <div class="navbar-header">
+			                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+			                    <i class="fa fa-bars"></i>
+			                </button>
+			                <a class="navbar-brand" href="elcodhome">E-<span>VOTING</span></a>
+			            </div><!--/.navbar-header-->
+			            <!-- End Header Navigation -->
+
+			            <!-- Collect the nav links, forms, and other content for toggling -->
+			            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
+			                <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+			                    <li class="scroll">
+                                    <a href="logout">
+                                        <i class="fa fa-sign-out"></i> Logout
+                                    </a>
+                                </li>
+			                </ul><!--/.nav -->
+			            </div><!-- /.navbar-collapse -->
+			        </div><!--/.container-->
+			    </nav><!--/nav-->
+			    <!-- End Navigation -->
+			</div><!--/.header-area-->
+		    <div class="clearfix"></div>
+		</section><!-- /.top-area-->
+		<!-- top-area End -->
+
+		<!--welcome-hero start -->
+		<section id="home" class="welcome-hero">
+			<div class="container">
+				<div class="welcome-hero-txt">
+					<h2>IDEAL COLLEGE FACEVOTECHAIN<br>SYSTEM</h2>
+					<p>
+						<i class="fas fa-shield-alt"></i>
+						eVoting: Your voice, your choice, securely cast online for a more connected and participatory democracy
+					</p>
+                    <p>
+                        <i class="fas fa-user-tie"></i> WELCOME TO ELECTION COORDINATOR DASHBOARD
+                    </p>
+				</div>
+			</div>
+		</section><!--/.welcome-hero-->
+		<!--welcome-hero end -->
+
+		<!--list-topics start -->
+		<section id="list-topics" class="list-topics">
+			<div class="container">
+				<div class="list-topics-content">
+					<ul>
+						<li>
+							<div class="single-list-topics-content">
+								<div class="single-list-topics-icon">
+									<i class="fas fa-user-check"></i>
+								</div>
+								<h2><a href="viewnomec#works">VIEW NOMINEES<br>AND VERIFY</a></h2>
+								<p>Review and verify all nominated candidates</p>
+							</div>
+						</li>
+						<li>
+							<div class="single-list-topics-content">
+								<div class="single-list-topics-icon">
+									<i class="fas fa-chart-bar"></i>
+								</div>
+								<h2><a href="votres#works">VIEW<br>VOTING RESULTS</a></h2>
+								<p>Access and analyze election results</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div><!--/.container-->
+		</section><!--/.list-topics-->
+		<!--list-topics end-->
+
+		<!--works start -->
+        <section id="works" class="works">
+			<div class="container">
+				<div class="section-header">
+					<h2><i class="fas fa-info-circle"></i> DETAILS</h2>
+                    {% block body %}
+                    {% endblock %}
+				</div><!--/.section-header-->
+			</div><!--/.container-->
+		</section><!--/.works-->
+		<!--works end -->
+
+		<!--footer start-->
+		<footer id="footer" class="footer">
+			<div class="container">
+				<div class="hm-footer-copyright">
+					<div class="row">
+						<div class="col-sm-5">
+							<p>&copy; 2024 E-Voting System. All Rights Reserved.</p>
+						</div>
+						<div class="col-sm-7">
+							<div class="footer-social">
+								<a href="#"><i class="fab fa-facebook-f"></i></a>
+								<a href="#"><i class="fab fa-twitter"></i></a>
+								<a href="#"><i class="fab fa-linkedin-in"></i></a>
+								<a href="#"><i class="fab fa-instagram"></i></a>
+							</div>
+						</div>
+					</div>
+				</div><!--/.hm-footer-copyright-->
+			</div><!--/.container-->
+
+			<div id="scroll-Top">
+				<div class="return-to-top">
+					<i class="fa fa-angle-up" id="scroll-top"></i>
+				</div>
+			</div><!--/.scroll-Top-->
+        </footer><!--/.footer-->
+		<!--footer end-->
+
+		<!-- Include all js compiled plugins (below), or include individual files as needed -->
+		<script src="../static/assets/js/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+		<script src="../static/assets/js/bootstrap.min.js"></script>
+		<script src="../static/assets/js/bootsnav.js"></script>
+        <script src="../static/assets/js/feather.min.js"></script>
+		<script src="../static/assets/js/jquery.counterup.min.js"></script>
+		<script src="../static/assets/js/waypoints.min.js"></script>
+        <script src="../static/assets/js/slick.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <script src="../static/assets/js/custom.js"></script>
+
+    </body>
+</html>

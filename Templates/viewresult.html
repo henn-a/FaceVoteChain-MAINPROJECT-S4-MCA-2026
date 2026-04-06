@@ -1,0 +1,377 @@
+{% extends 'admin/adminindex.html' %}
+{% block body %}
+<body>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <div class="card shadow-lg">
+        <div class="card-header bg-gradient text-white">
+          <h4 class="mb-0"><i class="fas fa-poll"></i> Election Results</h4>
+        </div>
+        <div class="card-body p-4">
+
+          <!-- Results Table -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th width="10%" class="text-center">#</th>
+                  <th width="55%"><i class="fas fa-user-tie"></i> Candidate Name</th>
+                  <th width="35%" class="text-center"><i class="fas fa-vote-yea"></i> Votes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if val %}
+                  {% for i in val %}
+                  <tr class="result-row">
+                    <td class="text-center">
+                      <div class="rank-badge">{{ loop.index }}</div>
+                    </td>
+                    <td>
+                      <div class="candidate-info">
+                        <i class="fas fa-user-circle text-primary me-2"></i>
+                        <strong>{{ i.nom }}</strong>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="vote-display">
+                        <div class="vote-bar-container">
+                          <div class="vote-bar" data-votes="{{ i.vote }}"></div>
+                        </div>
+                        <div class="vote-count">
+                          <i class="fas fa-check-circle text-success"></i>
+                          <strong>{{ i.vote }}</strong> votes
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="3" class="text-center text-muted py-5">
+                      <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+                      <h5>No Results Available</h5>
+                      <p class="mb-0">Votes have not been tallied yet</p>
+                    </td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Winner Section -->
+          {% if val and val|length > 0 %}
+          <div class="winner-section mt-4">
+            <div class="winner-card">
+              <div class="winner-icon">
+                <i class="fas fa-trophy fa-3x"></i>
+              </div>
+              <div class="winner-info">
+                <h5 class="mb-1">Leading Candidate</h5>
+                <h3 class="mb-0">{{ val[0].nom }}</h3>
+                <p class="mb-0 text-muted">with {{ val[0].vote }} votes</p>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- Statistics -->
+          {% if val %}
+          <div class="stats-section mt-4">
+            <div class="row text-center">
+              <div class="col-md-4">
+                <div class="stat-box">
+                  <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                  <h5 id="totalCandidates">{{ val|length }}</h5>
+                  <p class="text-muted mb-0">Candidates</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="stat-box">
+                  <i class="fas fa-chart-bar fa-2x text-success mb-2"></i>
+                  <h5 id="totalVotes">-</h5>
+                  <p class="text-muted mb-0">Total Votes</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="stat-box">
+                  <i class="fas fa-percentage fa-2x text-info mb-2"></i>
+                  <h5 id="avgVotes">-</h5>
+                  <p class="text-muted mb-0">Average Votes</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2rem 0;
+    min-height: 100vh;
+  }
+
+  .card {
+    border-radius: 15px;
+    border: none;
+    animation: fadeIn 0.5s ease-in;
+    overflow: hidden;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card-header.bg-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 15px 15px 0 0 !important;
+    padding: 1.5rem;
+    border-bottom: none;
+  }
+
+  .card-header h4 {
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .table {
+    margin-bottom: 0;
+  }
+
+  .table thead th {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-top: none;
+    padding: 1rem;
+    vertical-align: middle;
+  }
+
+  .table tbody td {
+    padding: 1.25rem;
+    vertical-align: middle;
+  }
+
+  .result-row {
+    transition: all 0.3s ease;
+  }
+
+  .result-row:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+  }
+
+  .rank-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .candidate-info {
+    display: flex;
+    align-items: center;
+    font-size: 1.05rem;
+  }
+
+  .vote-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .vote-bar-container {
+    background-color: #e9ecef;
+    border-radius: 10px;
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .vote-bar {
+    background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+    height: 100%;
+    border-radius: 10px;
+    transition: width 1s ease-out;
+    width: 0%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .vote-count {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #495057;
+  }
+
+  .winner-section {
+    padding-top: 1.5rem;
+    border-top: 2px solid #e9ecef;
+  }
+
+  .winner-card {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+  }
+
+  .winner-icon {
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .winner-info h3 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin: 0.5rem 0;
+  }
+
+  .winner-info h5 {
+    color: #495057;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+  }
+
+  .stats-section {
+    padding-top: 1.5rem;
+    border-top: 2px solid #e9ecef;
+  }
+
+  .stat-box {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .stat-box h5 {
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0.5rem 0;
+    font-size: 1.8rem;
+  }
+
+  .shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.175) !important;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .table {
+      font-size: 0.85rem;
+    }
+
+    .vote-bar-container {
+      height: 25px;
+    }
+
+    .rank-badge {
+      width: 35px;
+      height: 35px;
+      font-size: 1rem;
+    }
+
+    .winner-card {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .stat-box {
+      margin-bottom: 1rem;
+    }
+  }
+</style>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Calculate statistics
+    const voteBars = document.querySelectorAll('.vote-bar');
+    let totalVotes = 0;
+    let maxVotes = 0;
+
+    // Get all vote counts
+    voteBars.forEach(bar => {
+      const votes = parseInt(bar.getAttribute('data-votes'));
+      totalVotes += votes;
+      if (votes > maxVotes) maxVotes = votes;
+    });
+
+    // Update stats
+    document.getElementById('totalVotes').textContent = totalVotes;
+    const avgVotes = voteBars.length > 0 ? Math.round(totalVotes / voteBars.length) : 0;
+    document.getElementById('avgVotes').textContent = avgVotes;
+
+    // Animate vote bars
+    setTimeout(() => {
+      voteBars.forEach(bar => {
+        const votes = parseInt(bar.getAttribute('data-votes'));
+        const percentage = maxVotes > 0 ? (votes / maxVotes) * 100 : 0;
+        bar.style.width = percentage + '%';
+      });
+    }, 300);
+
+    // Add stagger animation to rows
+    const rows = document.querySelectorAll('.result-row');
+    rows.forEach((row, index) => {
+      row.style.opacity = '0';
+      row.style.transform = 'translateX(-20px)';
+
+      setTimeout(() => {
+        row.style.transition = 'all 0.5s ease';
+        row.style.opacity = '1';
+        row.style.transform = 'translateX(0)';
+      }, index * 100);
+    });
+  });
+</script>
+
+</body>
+{% endblock %}
